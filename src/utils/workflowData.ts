@@ -6,7 +6,8 @@ import {
 } from './matrixCalculations';
 
 // --- FORWARD PASS CALCULATIONS ---
-const X_INPUT = scalarMultiply(matrixAdd(ONE_HOT_CAT, ONE_HOT_ON), 0.5);
+// Changed X_INPUT to sum only, no division by 2
+const X_INPUT = matrixAdd(ONE_HOT_CAT, ONE_HOT_ON);
 const H_LAYER = matrixMultiply(X_INPUT, W1);
 const Z_LOGITS = matrixMultiply(H_LAYER, W2);
 const Y_PRED = softmax(Z_LOGITS);
@@ -38,7 +39,8 @@ export const initialNodes: Node[] = [
   { id: 'context-on', type: 'wordVector', position: { x: col0, y: row_mid + 250 }, data: { label: "Context Word: 'on'", matrix: ONE_HOT_ON, description: "One-Hot Vector (1x5)", vocabulary: VOCAB } },
 
   // --- Step 2: Averaging ---
-  { id: 'calc-x', type: 'calculation', position: { x: col1, y: row_mid }, data: { label: 'Average Context', formula: "X = (Vcat + Von)/2", expectedMatrix: X_INPUT, description: 'Calculate Input Vector', hint: 'Add the two one-hot vectors and divide by 2.', vocabulary: VOCAB } },
+  // Formula updated to reflect sum only
+  { id: 'calc-x', type: 'calculation', position: { x: col1, y: row_mid }, data: { label: 'Sum Context Vectors (X)', formula: "X = Vcat + Von", expectedMatrix: X_INPUT, description: 'Calculate Input Vector', hint: 'Add the two one-hot vectors. This sums up where the context words are in the vocabulary.', vocabulary: VOCAB } },
   
   // --- Step 3: Hidden Layer ---
   { id: 'w1-matrix', type: 'matrix', position: { x: col2, y: row_mid - 300 }, data: { label: "Embedding Matrix (W¹)", matrix: W1, description: "5x3 Matrix" } },
@@ -51,13 +53,14 @@ export const initialNodes: Node[] = [
   // --- Step 5: Prediction & Loss ---
   { id: 'activate-y-pred', type: 'activation', position: { x: col6, y: row_mid }, data: { label: 'Get Prediction (ŷ)', formula: "ŷ = Softmax(Z)", expectedMatrix: Y_PRED, description: "Convert Scores to Probabilities", vocabulary: VOCAB, highlightMax: true } },
   { id: 'y-true', type: 'wordVector', position: { x: col6, y: row_mid + 400 }, data: { label: "Correct Answer (Y)", matrix: ONE_HOT_SAT, description: "Target: 'sat' (1x5)", vocabulary: VOCAB } },
-  { id: 'calc-loss', type: 'calculation', position: { x: col6 + 700, y: row_mid }, data: { label: 'Calculate Loss', formula: "L = -Σ(Y ⋅ log(ŷ))", description: 'Cross-Entropy Loss', hint: 'The formula measures how different the prediction is from the correct answer.' } },
+  { id: 'calc-loss', type: 'calculation', position: { x: col6 + 700, y: row_mid }, data: { label: 'Calculate Loss', formula: "L = -Σ(Y ⋅ log(ŷ))", expectedMatrix: LOSS, description: 'Cross-Entropy Loss', hint: 'The formula measures how different the prediction is from the correct answer.' } },
 ];
 
 export const initialEdges: Edge[] = [
   // Edges from the new context node
   { id: 'e-intro-cat', source: 'intro-context', target: 'context-cat', animated: true, style: { strokeWidth: 2, stroke: '#9ca3af' } },
   { id: 'e-intro-on', source: 'intro-context', target: 'context-on', animated: true, style: { strokeWidth: 2, stroke: '#9ca3af' } },
+  // Commented out as requested
   // { id: 'e-intro-ytrue', source: 'intro-context', target: 'y-true', animated: true, style: { strokeWidth: 2, stroke: '#9ca3af' } },
 
 
