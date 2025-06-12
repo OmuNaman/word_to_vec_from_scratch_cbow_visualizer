@@ -38,7 +38,7 @@ function Word2VecWorkflowContent({ isDark, onToggleTheme }: { isDark: boolean; o
 
     return rawInitialNodes.map(node => {
       if (node.type === 'results') {
-        const isDisabled = !(allCompleted.has('calc-x'));
+        const isDisabled = !(allCompleted.has('w1-new'));
         return { ...node, data: { ...node.data, onExplore: () => setIsModalOpen(true), disabled: isDisabled }};
       }
       if (node.type !== 'calculation' && node.type !== 'activation') {
