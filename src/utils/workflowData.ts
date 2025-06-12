@@ -76,15 +76,16 @@ export const initialNodes: Node[] = [
   { id: 'calc-dw1', type: 'calculation', position: { x: col_backprop_w1 + 500 + 200, y: row_backprop_dw1 - 20 - 20 -20 - 20}, data: { label: 'Gradient dW¹', formula: "dW¹ = Xᵀ ⋅ dh", expectedMatrix: dW1, description: 'Gradient for W¹ (5x3)', hint: 'Multiply the transpose of the input vector (X) by the error at h (dh).' } },
 
   // --- Step 8: Weight Updates ---
-  { id: 'w1-new', type: 'matrix', position: { x: col_update_w + 500, y: row_update_w1 + 300}, data: { label: 'Updated W¹', matrix: W1_NEW, description: 'New Embedding Matrix (5x3)' } },
-  { id: 'w2-new', type: 'matrix', position: { x: col_update_w + 500, y: row_update_w2 - 560 }, data: { label: 'Updated W²', matrix: W2_NEW, description: 'New Output Matrix (3x5)' } },
+  { id: 'w1-new', type: 'calculation', position: { x: col_update_w + 500, y: row_update_w1 + 300}, data: { label: 'Updated W¹', formula: "W¹ = W¹ - (α ⋅ dW¹)", expectedMatrix: W1_NEW, description: 'Calculate New Embedding Matrix', hint: "Update the original W¹ weights by subtracting the gradient (dW¹) multiplied by a learning rate (α=0.05)." } },
+  { id: 'w2-new', type: 'calculation', position: { x: col_update_w + 500, y: row_update_w2 - 560 }, data: { label: 'Update W²', formula: "W² = W² - (α ⋅ dW²)", expectedMatrix: W2_NEW, description: 'Calculate New Output Matrix', hint: "Update the original W² weights by subtracting the gradient (dW²) multiplied by a learning rate (α=0.05)." } },
+
+  { id: 'results', type: 'results', position: { x: (col_backprop_w + 2000 + 300), y: row_forward_mid - 250}, data: {} }
 ];
 
 export const initialEdges: Edge[] = [
   // Edges from the new context node
   { id: 'e-intro-cat', source: 'intro-context', target: 'context-cat', animated: true, style: { strokeWidth: 2, stroke: '#9ca3af' } },
   { id: 'e-intro-on', source: 'intro-context', target: 'context-on', animated: true, style: { strokeWidth: 2, stroke: '#9ca3af' } },
-  // { id: 'e-intro-ytrue', source: 'intro-context', target: 'y-true', animated: true, style: { strokeWidth: 2, stroke: '#9ca3af' } },
 
   // Forward Pass Edges
   { id: 'e-cat-x', source: 'context-cat', target: 'calc-x', animated: true },
