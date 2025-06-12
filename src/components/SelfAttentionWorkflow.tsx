@@ -11,8 +11,8 @@ import { CalculationNode } from '@/components/workflow/CalculationNode';
 import { ActivationNode } from '@/components/workflow/ActivationNode';
 import { WordVectorNode } from '@/components/workflow/WordVectorNode';
 import { ContextNode } from '@/components/workflow/ContextNode';
-import { ResultsNode } from '@/components/workflow/ResultsNode'; // Import the new ResultsNode
-import { SemanticSpaceModal } from '@/components/workflow/SemanticSpaceModal'; // Import the new Modal
+import { ResultsNode } from '@/components/workflow/ResultsNode';
+import { SemanticSpaceModal } from '@/components/workflow/SemanticSpaceModal';
 import { initialNodes as rawInitialNodes, initialEdges } from '@/utils/workflowData';
 
 const nodeTypes = {
@@ -21,12 +21,12 @@ const nodeTypes = {
   activation: ActivationNode,
   wordVector: WordVectorNode,
   context: ContextNode,
-  results: ResultsNode, // Register the new ResultsNode type
+  results: ResultsNode,
 };
 
 function Word2VecWorkflowContent({ isDark, onToggleTheme }: { isDark: boolean; onToggleTheme: (isDark: boolean) => void }) {
   const [completedNodeIds, setCompletedNodeIds] = useState<Set<string>>(new Set());
-  const [isModalOpen, setIsModalOpen] = useState(false); // State for the modal
+  const [isModalOpen, setIsModalOpen] = useState(false);
   
   const handleNodeComplete = useCallback((nodeId: string) => {
     setCompletedNodeIds(prev => new Set(prev).add(nodeId));
@@ -38,10 +38,9 @@ function Word2VecWorkflowContent({ isDark, onToggleTheme }: { isDark: boolean; o
 
     return rawInitialNodes.map(node => {
       if (node.type === 'results') {
-        const isDisabled = !(allCompleted.has('calc-x') && allCompleted.has('calc-h'));
+        const isDisabled = !(allCompleted.has('calc-x'));
         return { ...node, data: { ...node.data, onExplore: () => setIsModalOpen(true), disabled: isDisabled }};
       }
-      
       if (node.type !== 'calculation' && node.type !== 'activation') {
         return { ...node, data: { ...node.data, disabled: false } };
       }

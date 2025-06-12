@@ -3,7 +3,7 @@ import { Handle, Position } from '@xyflow/react';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { useTheme } from '@/components/ThemeProvider';
-import { PartyPopper, CheckCircle, Rocket } from 'lucide-react';
+import { PartyPopper, CheckCircle, Rocket, Sparkles } from 'lucide-react';
 
 interface ResultsNodeProps {
   data: {
@@ -30,7 +30,7 @@ export function ResultsNode({ data }: ResultsNodeProps) {
             <CheckCircle className="text-green-500" />
             Epoch Complete!
         </CardTitle>
-        <CardDescription className="pt-2">
+        <CardDescription className="pt-2 text-base">
             You've successfully performed one full training step. Here's what that means:
         </CardDescription>
       </CardHeader>
@@ -41,16 +41,16 @@ export function ResultsNode({ data }: ResultsNodeProps) {
         </div>
         <div className="p-3 rounded-md bg-background/50 flex items-start gap-3">
             <span className="text-green-500 font-bold mt-1">•</span>
-            <p>You used these gradients to update the `Embedding Matrix (W¹)` and `Output Matrix (W²)`.</p>
+            <p>You used these gradients to update the <strong>Embedding Matrix (W¹)</strong> and <strong>Output Matrix (W²)</strong>.</p>
         </div>
         <div className="p-3 rounded-md bg-background/50 flex items-start gap-3">
             <span className="text-green-500 font-bold mt-1">•</span>
-            <p>In a real model, this process repeats millions of times, and the `Embedding Matrix` starts to capture the semantic relationships between words.</p>
+            <p>In a real model, this process repeats millions of times, and the <span className="font-bold text-green-400">Embedding Matrix</span> starts to capture the semantic relationships between words.</p>
         </div>
         <div className="pt-4 text-center">
-            <Button onClick={data.onExplore} disabled={data.disabled} size="lg" className="bg-green-600 hover:bg-green-700 text-white">
-                <Rocket className="w-5 h-5 mr-2" />
-                Explore the Semantic Space
+            <Button onClick={data.onExplore} disabled={data.disabled} size="lg" className="bg-green-600 hover:bg-green-700 text-white font-bold text-base shadow-lg hover:shadow-green-500/50 transition-all duration-300 transform hover:scale-105">
+                <Sparkles className="w-5 h-5 mr-2" />
+                See What We've Learned
             </Button>
         </div>
       </CardContent>
